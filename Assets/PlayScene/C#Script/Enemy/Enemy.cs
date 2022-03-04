@@ -8,7 +8,7 @@ using UnityEngine;
 ///　2/26 とりあえず倒される処理を作った
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] private string DefeatTag;//倒される原因のタグ
+    [SerializeField] private string DefeatTag;//倒される原因のタグ名
 
     /// <summary>
     /// 倒される
@@ -21,9 +21,12 @@ public class Enemy : MonoBehaviour
             this.gameObject.SetActive(false);
         }
     }
-    private void OnTriggerStay(Collider other)
+    /// <summary>
+    /// 3/4　何かに当たったら
+    /// </summary>
+    /// <param name="other"> </param>
+    private void OnCollisionEnter(Collision other)
     {
-        Down(other.tag);
+        Down(other.gameObject.tag);
     }
-
 }
