@@ -5,60 +5,61 @@ using UnityEngine.AI;
 public class EscapeEnemy : Enemy
 {
     [SerializeField] private Transform mPursuer;//追手のトランスフォーム
-    [SerializeField, Range(0.0f, 1.0f)] float RotatePowerY;//回転の力
-    [SerializeField, Range(1.0f, 20.0f)] private float mDesiredPower;//引き寄せられる力
+    [SerializeField, Range(0.1f, 5.0f)] private float mRithtTurnPower;//回転する力
+    [SerializeField] ForwardSearch mForwardSearch;//前方探索してくれるやつ
+  
+    private EnemyState.EscapeEnemyState mNowEnemyState;//こいつの状態
+    private NavMeshAgent mAgent; //逃げ道の設定に使う
     private string mPursuerTag;//追手のタグ
-    private ForwardSearch mForwardSearch;
-    private EnemyState.EscapeEnemyState mEnemyState;
-    private NavMeshAgent mAgent;
+    private Animator mAnimator;
     /// <summary>
     /// 目的地を設定
     /// </summary>
     private void SetNav()
     {
         //逃げ道
-        Vector3 Direction = mPursuer.transform.position - transform.position;
+        Vector3 Direction = (mPursuer.transform.position - transform.position).normalized;
         Direction += mForwardSearch.FindWayOut();
-        if (!mForwardSearch.mIsDetectionGround)//逃げ道を見つけれてないなら
-        {
-            //右方向に旋回
-            Direction.x = 1;
-            Direction *= mDesiredPower;
-        }
         Direction.y = transform.position.y;
         //目的地
-        var Destination = transform.position - Direction;
+        Vector3 Destination = transform.position - Direction;
         mAgent.SetDestination(Destination);//目的地をNavMeshに教える
-    }
-    ///ヨー回転させる
-    private void RotateY()
-    {
-        transform.Rotate(0.0f,RotatePowerY, 0.0f);
     }
     // 初期化
     void Start()
     {
-        mForwardSearch = this.gameObject.GetComponent<ForwardSearch>();
-        mPursuerTag = mPursuer.tag;
-        mEnemyState = EnemyState.EscapeEnemyState.Search;
+        mPursuerTag = mPursuer.gameObject.tag;
+        mNowEnemyState = EnemyState.EscapeEnemyState.Search;
         mAgent = this.gameObject.GetComponent<NavMeshAgent>();
+        mAnimator = GetComponent<Animator>();
         
     }
     // Update is called once per frame
     void Update()
     {
-        switch (mEnemyState)
+        switch (mNowEnemyState)//今の状態を参照
         {
             case EnemyState.EscapeEnemyState.Search:
-                RotateY();
-                if (mForwardSearch.ForwardRaySearchTarget(mPursuerTag))//前方に追手はいるか？
+                AnimatorClipInfo[] ClipInfo = mAnimator.GetCurrentAnimatorClipInfo(0);
+                if (ClipInfo[0].clip.name == "Turn")//曲がろうとしてたら
                 {
-                    mEnemyState++;
+                    transform.Rotate(new Vector3(0.0f, mRithtTurnPower, 0.0f));
                 }
+                //前方に追手はいるか？
+                if (mForwardSearch.ForwardRaySearchTarget(mPursuerTag))
+                {
+                    transform.LookAt(mPursuer.position);
+                    mAnimator.Play("surprised");//今やってるアニメーション中断して発見モーションに移行
+                    mNowEnemyState++;
+                }
+                
                 break;
             case EnemyState.EscapeEnemyState.Dush:
-                SetNav();//逃げ道を設定p
-                
+                AnimatorClipInfo[] clipInfo = mAnimator.GetCurrentAnimatorClipInfo(0);
+                if (clipInfo[0].clip.name == "Run")//Run状態になってから逃げ出すよ
+                {
+                    SetNav();//逃げ道を設定p
+                }
                 break;
         }
 
