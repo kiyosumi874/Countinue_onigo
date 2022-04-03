@@ -17,12 +17,16 @@ public class EscapeEnemy : Enemy
     /// </summary>
     private void SetNav()
     {
-        //逃げ道
-        Vector3 Direction = (mPursuer.transform.position - transform.position).normalized;
-        Direction += mForwardSearch.FindWayOut();
+        Vector3 FindWayOut = mForwardSearch.FindWayOut();//逃げ道をもらってくる
+        FindWayOut.y = transform.position.y;
+        Vector3 Direction;
+
+        Direction=(mPursuer.transform.position - transform.position).normalized;
+        
         Direction.y = transform.position.y;
         //目的地
-        Vector3 Destination = transform.position - Direction;
+        Vector3 Destination = transform.position - Direction + FindWayOut;
+        Debug.DrawRay(transform.position, Destination, Color.red);
         mAgent.SetDestination(Destination);//目的地をNavMeshに教える
     }
     // 初期化

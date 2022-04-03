@@ -148,7 +148,7 @@ GameObject:
   - component: {fileID: 476116656}
   m_Layer: 7
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 8
@@ -242,7 +242,7 @@ GameObject:
   - component: {fileID: 534264811}
   - component: {fileID: 534264810}
   m_Layer: 6
-  m_Name: Cube (1)
+  m_Name: Puruser
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -318,7 +318,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 534264809}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.81, y: 1.5854189, z: -1.0631571}
+  m_LocalPosition: {x: -1.81, y: 2, z: 1.25}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children: []
   m_Father: {fileID: 0}
@@ -527,6 +527,10 @@ PrefabInstance:
       propertyPath: mRithtTurnPower
       value: 1.5
       objectReference: {fileID: 0}
+    - target: {fileID: 85790663884643903, guid: d3e53ac7da7df474c88217df027dd58a, type: 3}
+      propertyPath: m_Speed
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 484826741620818901, guid: d3e53ac7da7df474c88217df027dd58a, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -574,6 +578,30 @@ PrefabInstance:
     - target: {fileID: 1004764472417130863, guid: d3e53ac7da7df474c88217df027dd58a, type: 3}
       propertyPath: m_Name
       value: ty
+      objectReference: {fileID: 0}
+    - target: {fileID: 6424683430257139420, guid: d3e53ac7da7df474c88217df027dd58a, type: 3}
+      propertyPath: mRayDeg
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6424683430257139420, guid: d3e53ac7da7df474c88217df027dd58a, type: 3}
+      propertyPath: mRayNum
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6424683430257139420, guid: d3e53ac7da7df474c88217df027dd58a, type: 3}
+      propertyPath: mOddRayNum
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6424683430257139420, guid: d3e53ac7da7df474c88217df027dd58a, type: 3}
+      propertyPath: mCurvePower
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6424683430257139420, guid: d3e53ac7da7df474c88217df027dd58a, type: 3}
+      propertyPath: mSearchRange
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6424683430257139420, guid: d3e53ac7da7df474c88217df027dd58a, type: 3}
+      propertyPath: mDownPercentage
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d3e53ac7da7df474c88217df027dd58a, type: 3}
