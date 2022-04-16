@@ -82,7 +82,7 @@ public class EscapeEnemy : MonoBehaviour
                 }
                 break;
             case EnemyState.EscapeEnemyState.Die:
-                if (clipInfo[0].clip.name!="FallFlat") 
+                if (clipInfo[0].clip.name == "Turn") 
                 {
                     mPlayScene.mEnemyCounter();
                 }
