@@ -13,7 +13,7 @@ public class EscapeEnemy : MonoBehaviour
     private NavMeshAgent mAgent; //逃げ道の設定に使う
     private string mPursuerTag;//追手のタグ
     private Animator mAnimator;
-   
+    private bool mIsAlive;
 
     /// <summary>
     /// 倒される
@@ -52,7 +52,7 @@ public class EscapeEnemy : MonoBehaviour
         mNowEnemyState = EnemyState.EscapeEnemyState.Search;
         mAgent = this.gameObject.GetComponent<NavMeshAgent>();
         mAnimator = GetComponent<Animator>();
-        
+        mIsAlive = true;
     }
     // Update is called once per frame
     void Update()
@@ -82,9 +82,10 @@ public class EscapeEnemy : MonoBehaviour
                 }
                 break;
             case EnemyState.EscapeEnemyState.Die:
-                if (clipInfo[0].clip.name == "Turn") 
+                if (clipInfo[0].clip.name == "Turn"&&mIsAlive) 
                 {
                     mPlayScene.mEnemyCounter();
+                    mIsAlive = false;
                 }
                 break;
         }

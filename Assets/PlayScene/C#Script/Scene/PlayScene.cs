@@ -6,6 +6,7 @@ public class PlayScene : SceneBase
 {
     [SerializeField] private int mEnemyMax;
     [SerializeField] private float mTimeLimit;
+    [SerializeField] private int mFailedSceneNum;
     private int mEnemyCount;
     private float mTime;
     public void mEnemyCounter()
@@ -14,10 +15,11 @@ public class PlayScene : SceneBase
     }
     private void Timer()
     {
+        Debug.Log(mTime);
         mTime += Time.deltaTime;
         if (mTime > mTimeLimit) 
         {
-            SceneChange();
+            SceneChange(mFailedSceneNum);
         }
     }
     private void Start()
@@ -27,9 +29,11 @@ public class PlayScene : SceneBase
     }
     private void Update()
     {
-        if(mEnemyCount==mEnemyMax)
+        Debug.Log(mEnemyCount);
+        if (mEnemyCount == mEnemyMax)
         {
-            SceneChange();
+
+            SceneChange(mNextSceneNum);
         }
         Timer();
     }
