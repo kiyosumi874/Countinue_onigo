@@ -5,9 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class SceneBase : MonoBehaviour
 {
-    [SerializeField] private string mNextSceneName;
-    public void SceneChange()
+    [SerializeField] private List<string> mNextSceneName;
+    [SerializeField] protected int mNextSceneNum;
+    public void OnClick()
     {
-        SceneManager.LoadScene(mNextSceneName);  
+        SceneChange(mNextSceneNum);
+    }
+    public void SceneChange(int _NextSceneNum)
+    {
+        SceneManager.LoadScene(mNextSceneName[_NextSceneNum]);  
     }
 }
