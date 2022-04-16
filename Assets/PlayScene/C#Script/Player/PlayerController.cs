@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 input;
     //Å@ë¨Ç≥
     [SerializeField]
-    private float walkSpeed = 4f;
+    private float walkSpeed;
     private void OnTriggerEnter(Collider other)
     {
 
