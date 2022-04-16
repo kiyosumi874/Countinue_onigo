@@ -8,6 +8,7 @@ public class EscapeEnemy : MonoBehaviour
     [SerializeField, Range(0.1f, 5.0f)] private float mRithtTurnPower;//回転する力
     [SerializeField] ForwardSearch mForwardSearch;//前方探索してくれるやつ
    [SerializeField] private string DefeatTag;//倒される原因のタグ名
+    [SerializeField] private PlayScene mPlayScene;
     private EnemyState.EscapeEnemyState mNowEnemyState;//こいつの状態
     private NavMeshAgent mAgent; //逃げ道の設定に使う
     private string mPursuerTag;//追手のタグ
@@ -56,11 +57,11 @@ public class EscapeEnemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        AnimatorClipInfo[] clipInfo = mAnimator.GetCurrentAnimatorClipInfo(0);
         switch (mNowEnemyState)//今の状態を参照
         {
             case EnemyState.EscapeEnemyState.Search:
-                AnimatorClipInfo[] ClipInfo = mAnimator.GetCurrentAnimatorClipInfo(0);
-                if (ClipInfo[0].clip.name == "Turn")//曲がろうとしてたら
+                if (clipInfo[0].clip.name == "Turn")//曲がろうとしてたら
                 {
                     transform.Rotate(new Vector3(0.0f, mRithtTurnPower, 0.0f));
                 }
@@ -74,13 +75,17 @@ public class EscapeEnemy : MonoBehaviour
                 
                 break;
             case EnemyState.EscapeEnemyState.Dush:
-                AnimatorClipInfo[] clipInfo = mAnimator.GetCurrentAnimatorClipInfo(0);
+
                 if (clipInfo[0].clip.name == "Run")//Run状態になってから逃げ出すよ
                 {
                     SetNav();//逃げ道を設定p
                 }
                 break;
             case EnemyState.EscapeEnemyState.Die:
+                if (clipInfo[0].clip.name!="FallFlat") 
+                {
+                    mPlayScene.mEnemyCounter();
+                }
                 break;
         }
 
