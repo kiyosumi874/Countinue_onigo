@@ -7,7 +7,8 @@ public class EnemyState : MonoBehaviour
     public enum EscapeEnemyState
     {
         Search,
-        Dush
+        Dush,
+        Die
     }
 
 }

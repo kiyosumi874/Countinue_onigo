@@ -2,16 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-public class EscapeEnemy : Enemy
+public class EscapeEnemy : MonoBehaviour
 {
     [SerializeField] private Transform mPursuer;//追手のトランスフォーム
     [SerializeField, Range(0.1f, 5.0f)] private float mRithtTurnPower;//回転する力
     [SerializeField] ForwardSearch mForwardSearch;//前方探索してくれるやつ
-  
+   [SerializeField] private string DefeatTag;//倒される原因のタグ名
     private EnemyState.EscapeEnemyState mNowEnemyState;//こいつの状態
     private NavMeshAgent mAgent; //逃げ道の設定に使う
     private string mPursuerTag;//追手のタグ
     private Animator mAnimator;
+   
+
+    /// <summary>
+    /// 倒される
+    /// </summary>
+    /// <param name="TagName">倒される原因のタグ</param>
+    private void Down(string TagName)
+    {
+        if (TagName == DefeatTag)
+        {
+            mAnimator.Play("FallFlat");
+            mNowEnemyState = EnemyState.EscapeEnemyState.Die;
+        }
+    }
+
     /// <summary>
     /// 目的地を設定
     /// </summary>
@@ -65,7 +80,17 @@ public class EscapeEnemy : Enemy
                     SetNav();//逃げ道を設定p
                 }
                 break;
+            case EnemyState.EscapeEnemyState.Die:
+                break;
         }
 
+    }
+    /// <summary>
+    /// 3/4　何かに当たったら
+    /// </summary>
+    /// <param name="other"> </param>
+    private void OnCollisionEnter(Collision other)
+    {
+        Down(other.gameObject.tag);
     }
 }

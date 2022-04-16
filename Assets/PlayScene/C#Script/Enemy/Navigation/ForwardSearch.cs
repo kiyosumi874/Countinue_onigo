@@ -11,7 +11,6 @@ public class ForwardSearch : MonoBehaviour
     [SerializeField, Range(1.0f, 45.0f)] float mRayDeg;
     [SerializeField,Range(1.0f,10.0f)] int mDownPercentage;
     [SerializeField,Range(1.0f,100.0f)] private float mSearchRange;//探索距離   
-    //[SerializeField, Range(1.0f, 19.0f)] private int mCurvePower;
     private List<Ray> mRays = new List<Ray>();   
     private RaycastHit mHit;                     //Rayに当たった対象
 
@@ -41,9 +40,9 @@ public class ForwardSearch : MonoBehaviour
     {
         Ray ray;
         //光線の初期化
-        ray = Camera.main.ScreenPointToRay(transform.position);//ようわかっとらんのでカメラ位置を代入
-        ray.origin = _origin;
-        ray.direction = _direction;
+        ray = Camera.main.ScreenPointToRay(transform.position);//ようわかっとらんが代入しなければいけないので、カメラから代入
+        ray.origin = _origin;//出る場所
+        ray.direction = _direction;//向かう方向
         Debug.DrawRay(transform.position, ray.direction * mSearchRange, Color.red, 0.01f);//可視化
         mRays.Add(ray);
     }
@@ -57,12 +56,12 @@ public class ForwardSearch : MonoBehaviour
         int n = 0;//
         for (int i = 0; i < _num; i++) 
         {
-            Vector3 vec1 = transform.forward;
+            Vector3 vec1 = transform.forward;//前方
             Vector3 vec2;
             if (i % 2 == 0) 
             {
                 vec2 = Quaternion.Euler(0, mRayDeg * n, 0) * vec1;//前方ベクトルをmRayDeg分回転させる
-                AddRay(transform.position, vec2 + _yVec);//右方向Ray追加
+                AddRay(transform.position, vec2 + _yVec);//右方向Ray追加//初回は0なので前方がそのまま入る
             }
             else
             {
@@ -86,7 +85,7 @@ public class ForwardSearch : MonoBehaviour
         CreateForwardRay(mOddRayNum,Down);//前方下向きに探索させる
         for (int i = 0; i < mRays.Count; i++)
         {
-            Debug.DrawRay(transform.position, mRays[i].direction * 100, Color.black, 0.01f);//Rayの可視化
+            Debug.DrawRay(transform.position, mRays[i].direction * mSearchRange, Color.black, 0.01f);//Rayの可視化
             if (SearchTarget(mRays[i], "Ground"))//地面に当たった？
             {
                 Debug.Log("Ground");
