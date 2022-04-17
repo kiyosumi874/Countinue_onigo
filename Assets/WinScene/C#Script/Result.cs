@@ -8,7 +8,7 @@ public class Result : SceneBase
     {
         if(Input.GetKey(KeyCode.Space))
         {
-
+            SceneChange(mNextSceneNum);
         }
     }
 }

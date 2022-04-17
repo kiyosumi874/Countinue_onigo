@@ -82,7 +82,7 @@ public class EscapeEnemy : MonoBehaviour
                 }
                 break;
             case EnemyState.EscapeEnemyState.Die:
-                if (clipInfo[0].clip.name == "Turn"&&mIsAlive) 
+                if (clipInfo[0].clip.name == "Turn" && mIsAlive) 
                 {
                     mPlayScene.mEnemyCounter();
                     mIsAlive = false;
@@ -97,6 +97,9 @@ public class EscapeEnemy : MonoBehaviour
     /// <param name="other"> </param>
     private void OnCollisionEnter(Collision other)
     {
-        Down(other.gameObject.tag);
+        if (mIsAlive)
+        {
+            Down(other.gameObject.tag);
+        }
     }
 }

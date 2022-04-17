@@ -268,7 +268,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 375263729}
   m_LocalRotation: {x: 0.3420201, y: 0, z: 0, w: 0.9396927}
-  m_LocalPosition: {x: 0, y: 24, z: 12.1}
+  m_LocalPosition: {x: 0, y: 24, z: 10.64}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -398,6 +398,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -6893935924969798628, guid: c6b2d5d2cc211544fbaae3facba4397b, type: 3}
+      propertyPath: m_Speed
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: -1242488199417333889, guid: c6b2d5d2cc211544fbaae3facba4397b, type: 3}
       propertyPath: mPursuer
       value: 
@@ -406,6 +410,10 @@ PrefabInstance:
       propertyPath: mPlayScene
       value: 
       objectReference: {fileID: 252176649}
+    - target: {fileID: -1242488199417333889, guid: c6b2d5d2cc211544fbaae3facba4397b, type: 3}
+      propertyPath: mRithtTurnPower
+      value: 0.55
+      objectReference: {fileID: 0}
     - target: {fileID: 44592450795122632, guid: c6b2d5d2cc211544fbaae3facba4397b, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
