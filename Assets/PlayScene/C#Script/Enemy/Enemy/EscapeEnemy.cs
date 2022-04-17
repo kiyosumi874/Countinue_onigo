@@ -20,6 +20,11 @@ public class EscapeEnemy : MonoBehaviour
     private bool mIsAlive;
     private bool mIsSurprise;
     private bool mIsRunAway;
+    private void AudioPlay(AudioClip _audioClip)
+    {
+        mAudioSource.clip = _audioClip;
+        mAudioSource.Play();
+    }
     /// <summary>
     /// 倒される
     /// </summary>
@@ -28,13 +33,12 @@ public class EscapeEnemy : MonoBehaviour
     {
         if (TagName == mDefeatTag)
         {
-            mAudioSource.clip = mFlopClip;
-            mAudioSource.Play();
+            AudioPlay(mFlopClip);
             mAnimator.Play("FallFlat");
             mNowEnemyState = EnemyState.EscapeEnemyState.Die;
         }
     }
-
+   
     /// <summary>
     /// 目的地を設定
     /// </summary>
@@ -91,8 +95,7 @@ public class EscapeEnemy : MonoBehaviour
 
                 if (!mIsSurprise)
                 {
-                    mAudioSource.clip = mSurpriseClip;
-                    mAudioSource.Play();
+                    AudioPlay(mSurpriseClip);
                     mSurpriseImage.gameObject.SetActive(true);
                     mIsSurprise = true;
                 }
@@ -100,8 +103,7 @@ public class EscapeEnemy : MonoBehaviour
                 {
                     if (!mIsRunAway)
                     {
-                        mAudioSource.clip = mRanAwayClip;
-                        mAudioSource.Play();
+                        AudioPlay(mRanAwayClip);
                         mIsRunAway = true;
                     }
                     SetNav();//逃げ道を設定p

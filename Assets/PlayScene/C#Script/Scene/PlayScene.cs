@@ -8,13 +8,13 @@ public class PlayScene : SceneBase
     
     [SerializeField] private float mTimeLimit;
     [SerializeField] private int mFailedSceneNum;
-    [SerializeField,Range(0,mCountDownMaxSeconds)] private int mEnemyStartSecond;
     [SerializeField] private Text mTimeText;
     [SerializeField] private Text mEnemyCountText;
     [SerializeField] private Text mCountDownText;
-    [SerializeField] private AudioSource mCountDownAudioSource;
-    [SerializeField] private List<GameObject> mEnemys = new List<GameObject>(); 
+    [SerializeField] private List<GameObject> mEnemys = new List<GameObject>();
     [SerializeField] private GameObject mCountDownPanel;
+    
+
     private int mEnemyCount;
     private int mEnemyMax;
     private float mTime;
@@ -29,32 +29,30 @@ public class PlayScene : SceneBase
         mTime += Time.deltaTime;
         if (mTime > mTimeLimit) 
         {
-            SceneChange(mFailedSceneNum);
+            FadeOut();
         }
         mTimeText.text = (mTimeLimit - mTime).ToString("N2");
     }
     private bool GameStartPreparation()
     {
         mTime -= Time.deltaTime;
-        Debug.Log(mTime);
-        if (Mathf.Ceil(mTime) == mCountDownMaxSeconds || Mathf.Ceil(mTime) == 2 || Mathf.Ceil(mTime) == 1) 
+        mCountDownText.text = mTime.ToString("N0");
+        switch (Mathf.Ceil(mTime))
         {
-            mCountDownText.text = mTime.ToString("N0");
-        }
-        if(!mCountDownAudioSource.isPlaying)
-        {
-            mCountDownAudioSource.Play();
-        }
-        if(Mathf.Ceil(mTime) == 1)
-        {
-            mEnemysSetActive(true);
-        }  
-        else if (Mathf.Ceil(mTime) == 0) 
-        {
-            mCountDownPanel.SetActive(false);
-            mTime = 0;
-            mIsComplitedCountDown = true;
-            return true;
+            case mCountDownMaxSeconds:
+                if(!mAudioSource.isPlaying)
+                {
+                    mAudioSource.Play();
+                }
+                break;
+            case 1:
+                mEnemysSetActive(true);
+                break;
+            case 0:
+                mCountDownPanel.SetActive(false);
+                mTime = 0;
+                mIsComplitedCountDown = true;
+                return true;
         }
         return false;
     }
@@ -75,18 +73,39 @@ public class PlayScene : SceneBase
     }
     private void Update()
     {
-        if (mIsComplitedCountDown)
+        if (!mIsComplitedFadeIn)
         {
-            if (mEnemyCount == mEnemyMax)
-            {
-                SceneChange(mNextSceneNum);
-            }
-            Timer();
-            mEnemyCountText.text = (mEnemyMax - mEnemyCount).ToString();
+            FadeIn();
         }
         else
         {
-            GameStartPreparation();
+            if (mIsComplitedCountDown)
+            {
+                if (mEnemyCount == mEnemyMax)
+                {            
+                    
+                    FadeOut();
+                }
+                Timer();
+                mEnemyCountText.text = (mEnemyMax - mEnemyCount).ToString();  
+
+            }
+            else
+            {
+                GameStartPreparation();
+                FadeTimeInit();
+            }
+        }
+        if(mIsComplitedFadeOut)
+        {
+            if (mTime > mTimeLimit)
+            {
+                SceneChange(mFailedSceneNum);
+            }
+            else
+            {
+                SceneChange(mDefaultNextSceneNum);
+            }
         }
     }
 }
