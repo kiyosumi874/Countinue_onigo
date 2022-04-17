@@ -2,27 +2,34 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 public class EscapeEnemy : MonoBehaviour
 {
     [SerializeField] private Transform mPursuer;//追手のトランスフォーム
     [SerializeField, Range(0.1f, 5.0f)] private float mRithtTurnPower;//回転する力
-    [SerializeField] ForwardSearch mForwardSearch;//前方探索してくれるやつ
-   [SerializeField] private string DefeatTag;//倒される原因のタグ名
+    [SerializeField] private ForwardSearch mForwardSearch;//前方探索してくれるやつ
+    [SerializeField] private string mDefeatTag;//倒される原因のタグ名
+    [SerializeField] private AudioSource mAudioSource;
     [SerializeField] private PlayScene mPlayScene;
+    [SerializeField] private AudioClip mSurpriseClip, mRanAwayClip, mFlopClip;
+    [SerializeField] private Image mSurpriseImage;
     private EnemyState.EscapeEnemyState mNowEnemyState;//こいつの状態
     private NavMeshAgent mAgent; //逃げ道の設定に使う
     private string mPursuerTag;//追手のタグ
     private Animator mAnimator;
     private bool mIsAlive;
-
+    private bool mIsSurprise;
+    private bool mIsRunAway;
     /// <summary>
     /// 倒される
     /// </summary>
     /// <param name="TagName">倒される原因のタグ</param>
     private void Down(string TagName)
     {
-        if (TagName == DefeatTag)
+        if (TagName == mDefeatTag)
         {
+            mAudioSource.clip = mFlopClip;
+            mAudioSource.Play();
             mAnimator.Play("FallFlat");
             mNowEnemyState = EnemyState.EscapeEnemyState.Die;
         }
@@ -53,6 +60,10 @@ public class EscapeEnemy : MonoBehaviour
         mAgent = this.gameObject.GetComponent<NavMeshAgent>();
         mAnimator = GetComponent<Animator>();
         mIsAlive = true;
+        mIsSurprise = false;
+        mIsRunAway = false;
+        mSurpriseImage.gameObject.SetActive(false);
+        mAudioSource = GetComponent<AudioSource>();
     }
     // Update is called once per frame
     void Update()
@@ -71,21 +82,37 @@ public class EscapeEnemy : MonoBehaviour
                     transform.LookAt(mPursuer.position);
                     mAnimator.Play("surprised");//今やってるアニメーション中断して発見モーションに移行
                     mNowEnemyState++;
+
+                    mIsSurprise = false;
                 }
                 
                 break;
             case EnemyState.EscapeEnemyState.Dush:
 
+                if (!mIsSurprise)
+                {
+                    mAudioSource.clip = mSurpriseClip;
+                    mAudioSource.Play();
+                    mSurpriseImage.gameObject.SetActive(true);
+                    mIsSurprise = true;
+                }
                 if (clipInfo[0].clip.name == "Run")//Run状態になってから逃げ出すよ
                 {
+                    if (!mIsRunAway)
+                    {
+                        mAudioSource.clip = mRanAwayClip;
+                        mAudioSource.Play();
+                        mIsRunAway = true;
+                    }
                     SetNav();//逃げ道を設定p
                 }
                 break;
             case EnemyState.EscapeEnemyState.Die:
-                if (clipInfo[0].clip.name == "Turn" && mIsAlive) 
+                if (mIsAlive) 
                 {
-                    mPlayScene.mEnemyCounter();
+                    mPlayScene.EnemyCounter();
                     mIsAlive = false;
+                    mSurpriseImage.gameObject.SetActive(false);
                 }
                 break;
         }
