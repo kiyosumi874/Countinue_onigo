@@ -774,7 +774,7 @@ MonoBehaviour:
   mClickAudio: {fileID: 8300000, guid: d68431206e825bd47b4eea906a0b83fe, type: 3}
   mAudioSource: {fileID: 1282407705}
   mFadeInSeconds: 3
-  mFadeOutSeconds: 10
+  mFadeOutSeconds: 3
   mFadeInFadeOutPanel: {fileID: 1356688150}
 --- !u!4 &1282407707
 Transform:

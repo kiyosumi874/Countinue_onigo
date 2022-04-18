@@ -541,7 +541,7 @@ MonoBehaviour:
   mClickAudio: {fileID: 0}
   mAudioSource: {fileID: 252176651}
   mFadeInSeconds: 3
-  mFadeOutSeconds: 5
+  mFadeOutSeconds: 3
   mFadeInFadeOutPanel: {fileID: 2080923767}
   mTimeLimit: 100
   mFailedSceneNum: 1

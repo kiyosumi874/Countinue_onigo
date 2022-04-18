@@ -157,8 +157,8 @@ MonoBehaviour:
   - TitleScene
   mClickAudio: {fileID: 8300000, guid: d68431206e825bd47b4eea906a0b83fe, type: 3}
   mAudioSource: {fileID: 191578172}
-  mFadeInSeconds: 1
-  mFadeOutSeconds: 1
+  mFadeInSeconds: 3
+  mFadeOutSeconds: 3
   mFadeInFadeOutPanel: {fileID: 1501268156}
 --- !u!4 &191578171
 Transform:
