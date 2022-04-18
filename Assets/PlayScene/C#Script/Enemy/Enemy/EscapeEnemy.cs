@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class EscapeEnemy : MonoBehaviour
 {
     [SerializeField] private Transform mPursuer;//追手のトランスフォーム
-    [SerializeField, Range(0.1f, 5.0f)] private float mRithtTurnPower;//回転する力
+    [SerializeField, Range(-3.0f, 3.0f)] private float mRithtTurnPower;//回転する力
     [SerializeField] private ForwardSearch mForwardSearch;//前方探索してくれるやつ
     [SerializeField] private string mDefeatTag;//倒される原因のタグ名
     [SerializeField] private AudioSource mAudioSource;
